@@ -4,8 +4,9 @@ const hasHobbies = true
 
 age = 20
 
-function bioOfUser (nameOfUser, ageOfUser, hasHobbiesUser) {
+const bioOfUser = (nameOfUser, ageOfUser, hasHobbiesUser) => {
     return ('My name is: ' + nameOfUser + ', my age: ' + ageOfUser + ' and have hobby is: ' + hasHobbiesUser + '.')
 }
 
-console.log(bioOfUser(myName, age, hasHobbies))
+
+ console.log(bioOfUser(myName, age, hasHobbies))
