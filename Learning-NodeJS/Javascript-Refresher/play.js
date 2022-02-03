@@ -2,8 +2,8 @@ var myName = 'Almir';
 var age = 29;
 var hasHobbies = true
 
-function bioOfUser () {
-    return ('My name is: ' + myName + ', my age: ' + age + ' and have hobby is: ' + hasHobbies + '.')
+function bioOfUser (nameOfUser, ageOfUser, hasHobbiesUser) {
+    return ('My name is: ' + nameOfUser + ', my age: ' + ageOfUser + ' and have hobby is: ' + hasHobbiesUser + '.')
 }
 
-console.log(bioOfUser())
+console.log(bioOfUser(myName, age, hasHobbies))
