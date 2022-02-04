@@ -1,6 +1,7 @@
-const sons = ['Amel', 'Edin', 'Almir'];
+const toArray = (...args) => args
 
-const copiedSons = [...sons, 'Zed'];
+
+console.log(toArray('Almir', 19, 'Muminoviq', 'Novi Pazar', 'Svojbor'))
 
 
 
