@@ -1,4 +1,6 @@
-const hobbies = ['Sports', 'Cooking'];
+const sons = ['Amel', 'Edin', 'Almir'];
 
-const updatedHobbies = hobbies.map(hobby => 'My hobby is: ' + hobby)
+const copiedSons = [...sons, 'Zed'];
+
+
 
