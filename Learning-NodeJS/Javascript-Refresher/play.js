@@ -1,5 +1,7 @@
-const games = ['Lol', 'Dota', 'Wow'];
+// async code
+setTimeout(() => {
+    console.log('Action is complete after 2s')
+}, 2000);
 
-const [game1, game2, game3] = games;
-
-console.log(game1, game2, game3)
+// sync code
+console.log('Action is complete immediately')
