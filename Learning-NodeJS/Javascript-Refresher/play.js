@@ -1,14 +1,17 @@
-const fetchData = callback => {
-    setTimeout(() => {
-        callback('Done!');
-    }, 5000)
+const fetchData = () => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('Done!');
+        }, 5000)
+    })
+    return promise
 }
 
 // async code (callback function)
 setTimeout(() => {
     console.log('Action is complete after 2s')
-    fetchData(text => {
-        console.log(text);
+    fetchData().then(text => {
+        console.log(text)
     })
 }, 2000);
 
