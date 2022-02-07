@@ -1,8 +1,6 @@
 const http = require('http');
+const requestHandler = require('./routes');
 
-const server = http.createServer((req, res) => {
-
-})
+const server = http.createServer(requestHandler)
 
 server.listen(3030);
-console.log('Listening on port 3000, Hello from nodeJS')
