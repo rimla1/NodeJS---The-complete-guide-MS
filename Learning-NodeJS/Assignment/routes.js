@@ -5,7 +5,7 @@ const requestHandler = (req, res) => {
         res.setHeader('Content-Type', 'text/html')
 
         // Response Content
-        res.write('<html><body>Hello user, welcome to our page!</body></html>')
+        res.write('<html><body><form action="/create-user method="POST"><input type="text" name="userRandom"><button type="submit">submit</button></form></body></html>')
 
         res.end();
     } 
@@ -19,6 +19,7 @@ const requestHandler = (req, res) => {
 
         res.end();
     }
+
 }
 
 module.exports = requestHandler;
