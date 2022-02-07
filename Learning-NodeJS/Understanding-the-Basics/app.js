@@ -22,9 +22,10 @@ const server = http.createServer((req, res) => {
             const parsedBody = Buffer.concat(body).toString();
             const messageData = parsedBody.split('=')[1];
             fs.writeFileSync('message.txt', messageData);
+            res.writeHead(302, {'location': '/'})
+            return res.end()
         })
-        res.writeHead(302, {'location': '/'})
-        return res.end()
+
     }
      res.setHeader('Content-Type', 'text/html');
      res.write('<head><title>My First Page</title></head>');
