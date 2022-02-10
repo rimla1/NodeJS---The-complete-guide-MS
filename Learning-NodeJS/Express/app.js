@@ -15,6 +15,7 @@ app.use((req, res, next) => {
 })
 
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
+// server.listen(3210)
 
-server.listen(3210)
+app.listen(3210);
