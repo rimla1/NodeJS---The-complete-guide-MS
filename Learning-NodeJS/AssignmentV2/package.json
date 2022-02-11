@@ -1,0 +1,15 @@
+{
+  "name": "assignmentv2",
+  "version": "1.0.0",
+  "description": "Practice",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Almir Muminovic",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
+  }
+}
