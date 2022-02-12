@@ -10,7 +10,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.use(adminRoutes)
+// '/admin' is path for both requests, this is a shortcut
+app.use('/admin', adminRoutes)
 
 app.use(shopRoutes)
 
