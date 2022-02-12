@@ -3,13 +3,18 @@ const express = require('express');
 const app = express();
 
 
+
+
 app.use('/add-product', (req, res, next) => {
-    console.log('in add-product middleware');
-    res.send('<h1>Add product page with path "/add-product"</h1>');
+    res.send('<form action="/product" method="POST"><input type="text" name="titleOfProduct"><button type="submit">Add product</button></form>');
+})
+
+app.use('/product', (req, res, next) => {
+    console.log(req.body)
+    res.redirect('/')
 })
 
 app.use('/', (req, res, next) => {
-    console.log('in the main middleware');
     res.send('<h1>Home page with path "/"</h1>');
 })
 
