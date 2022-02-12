@@ -1,8 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-
+app.use(bodyParser.urlencoded({extended: false}))
 
 
 app.use('/add-product', (req, res, next) => {
@@ -17,8 +18,6 @@ app.use('/product', (req, res, next) => {
 app.use('/', (req, res, next) => {
     res.send('<h1>Home page with path "/"</h1>');
 })
-
-
 
 
 // const server = http.createServer(app);
