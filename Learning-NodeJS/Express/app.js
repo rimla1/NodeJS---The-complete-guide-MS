@@ -4,7 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const adminRoutes = require('./routes/admin')
-const shopRoutes = require('./routes/shop')
+const shopRoutes = require('./routes/shop');
+const { addAbortSignal } = require('stream');
 
 const PORT = 3210
 
@@ -13,6 +14,7 @@ const app = express();
 
 
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // '/admin' is path for both requests, this is a shortcut
 app.use('/admin', adminRoutes)
