@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 
+const PORT = 3210
+
 const app = express();
 
 
@@ -27,4 +29,6 @@ app.use((req, res, next) => {
 // const server = http.createServer(app);
 // server.listen(3210)
 
-app.listen(3210);
+app.listen(PORT, () => {
+    console.log(`Server is up and running on port ${PORT}`)
+});
