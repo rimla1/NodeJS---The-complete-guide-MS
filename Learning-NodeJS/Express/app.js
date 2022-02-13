@@ -19,7 +19,7 @@ app.use(shopRoutes)
 
 // catch all middlewares (path is / by default)
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', 'error.html'))
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
 })
 
 
