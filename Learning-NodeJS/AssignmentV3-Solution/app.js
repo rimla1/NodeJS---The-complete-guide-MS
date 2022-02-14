@@ -1,9 +1,11 @@
 const express = require('express');
 
+const mainRoutes = require('./routes/index')
+
 const app = express()
 
-app.use()
+app.use(mainRoutes)
 
-app.use()
+
 
 app.listen(7777)
