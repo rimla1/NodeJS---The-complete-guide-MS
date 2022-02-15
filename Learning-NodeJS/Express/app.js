@@ -25,7 +25,7 @@ app.use(shopRoutes)
 
 // catch all middlewares (path is / by default)
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
+    res.status(404).render('404', {docTitle: "Error 404 page not found"})
 })
 
 
