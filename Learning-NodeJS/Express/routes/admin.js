@@ -8,8 +8,10 @@ const router = express.Router();
 
 const products = [];
 
+
 router.get('/add-product', (req, res, next) => {
-    res.render('add-product', {docTitle: 'Add-Product', path: "/admin/add-product"});
+    res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
+    //  res.render('add-product', {docTitle: 'Add-Product', path: "/admin/add-product"}); (Pug Template)
 })
 
 router.post('/add-product', (req, res, next) => {
