@@ -17,8 +17,8 @@ const app = express();
 // app.set('views', 'views')
 
 // Handlebars Template
-app.engine('handlebars', expressHbs());
-app.set('view engine', 'handlebars')
+app.engine('hbs', expressHbs());
+app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 app.use(bodyParser.urlencoded({extended: false}))
@@ -31,8 +31,9 @@ app.use(shopRoutes)
 
 // catch all middlewares (path is / by default)
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
+    // res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
     // res.status(404).render('404', {docTitle: "Error 404 page not found"}) (Pug Template)
+    res.status(404).render('404', {titleOfPage: 'Page not found'})
 })
 
 
