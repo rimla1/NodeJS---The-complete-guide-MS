@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'));
     // res.render('shop', {prods: products, docTitle: 'Shop', path: "/"}) (Pug Template)
     // res.render('shop', {prods: products, titleOfPage: 'Shop', path: "/", hasProducts: products.length > 0, activeShop: true, productCSS: true}) (Handlebars Template)
-    res.render('shop', {prods: products, pageTitle: 'Shop'})
+    res.render('shop', {prods: products, pageTitle: 'Shop', path: '/'})
 })
 
 module.exports = router
