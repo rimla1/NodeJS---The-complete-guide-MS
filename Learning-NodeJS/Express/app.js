@@ -25,6 +25,7 @@ app.use('/admin', adminRoutes)
 
 app.use(shopRoutes)
 
+
 // catch all middlewares (path is / by default)
 app.use(errorController.get404)
 
