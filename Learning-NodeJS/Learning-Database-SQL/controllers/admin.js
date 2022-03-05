@@ -8,21 +8,21 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
-  Product.create({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description
-  }).then(result => {
-    // console.log(result)
-  }).catch(err => {
-    console.log(err)
-  })
+exports.postAddProduct = async(req, res, next) => {
+  // Destructuring (instead of const title = req.body.title & const imageUrl = req.body.imageUrl...) we can do this:
+  const {title, imageUrl, price, description} = req.body;
+  try {
+    const product = await Product.create({
+      // title: title (if names matches) then we can just name it title
+      title,
+      price,
+      imageUrl,
+      description
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
 };
 
 exports.getEditProduct = (req, res, next) => {
