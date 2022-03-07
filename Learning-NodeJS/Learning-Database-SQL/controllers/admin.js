@@ -12,13 +12,13 @@ exports.postAddProduct = async(req, res, next) => {
   // Destructuring (instead of const title = req.body.title & const imageUrl = req.body.imageUrl...) we can do this:
   const {title, imageUrl, price, description} = req.body;
   try {
-    const product = await Product.create({
+    const product = await req.user.createProduct({
       // title: title (if names matches) then we can just name it title
       title,
       price,
       imageUrl,
-      description,
-    })
+      description
+    });
     res.redirect('/admin/products')
   } catch (error) {
     console.log(error)
