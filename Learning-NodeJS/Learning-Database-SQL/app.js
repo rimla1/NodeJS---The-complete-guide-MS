@@ -4,12 +4,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
+
 const sequelize = require('./util/database')
 
 const Product = require('./models/product')
 const User = require('./models/user')
 const Cart = require('./models/cart')
 const CartItem = require('./models/cart-item')
+const Order = require('./models/order')
+const OrderItem = require('./models/order-items')
 
 
 const app = express();
@@ -48,8 +51,14 @@ Cart.belongsTo(User)
 Cart.belongsToMany(Product, {through: CartItem})
 Product.belongsToMany(Cart, {through: CartItem})
 
+Order.belongsTo(User);
+User.hasMany(Order)
+
+Order.belongsToMany(Product, {through: OrderItem})
+Product.belongsToMany(Order, {through: OrderItem})
+
 sequelize
-    // .sync({ force: true })  we use this when we want to overwrite tables in database
+    // .sync({ force: true })  //we use this when we want to overwrite tables in database
     .sync()
     .then(result => {
         return User.findByPk(1)
