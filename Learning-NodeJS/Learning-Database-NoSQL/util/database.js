@@ -14,7 +14,7 @@ const MongoClient = mongodb.MongoClient;
 
 
 const mongoConnect = callback => {
-  MongoClient.connect('mongodb+srv://rimla:almirbomba2002@cluster0.ekxmb.mongodb.net/Cluster0?retryWrites=true&w=majority')
+  MongoClient.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ekxmb.mongodb.net/Cluster0?retryWrites=true&w=majority`)
   .then(client => {
     console.log('Connection is successful')
     callback(client)
