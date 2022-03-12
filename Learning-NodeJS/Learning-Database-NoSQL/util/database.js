@@ -1,8 +1,27 @@
-const Sequelize = require('sequelize');
+const mongodb = require('mongodb');
 
-const sequelize = new Sequelize('node-complete', 'root', 'nodecomplete', {
-  dialect: 'mysql',
-  host: 'localhost'
-});
+const MongoClient = mongodb.MongoClient;
 
-module.exports = sequelize;
+// const mongoConnect = async(callback) => {
+//   try {
+//     await MongoClient.connect('mongodb+srv://rimla:almirbomba2002@cluster0.ekxmb.mongodb.net/myFirstDataase?retryWrites=true&w=majority')
+//     console.log('Connection is successful')
+//     callback(client)
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
+
+
+const mongoConnect = callback => {
+  MongoClient.connect('mongodb+srv://rimla:almirbomba2002@cluster0.ekxmb.mongodb.net/Cluster0?retryWrites=true&w=majority')
+  .then(client => {
+    console.log('Connection is successful')
+    callback(client)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+module.exports = mongoConnect;
