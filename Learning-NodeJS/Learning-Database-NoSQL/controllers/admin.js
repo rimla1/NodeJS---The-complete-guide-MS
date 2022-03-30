@@ -9,15 +9,20 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
+  const { title, imageUrl, price, description } = req.body;
+  // const title = req.body.title;
+  // const imageUrl = req.body.imageUrl;
+  // const price = req.body.price;
+  // const description = req.body.description;
   const product = new Product({
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: imageUrl,
+    // title: title,
+    // price: price,
+    // description: description,
+    // imageUrl: imageUrl,
+    title,
+    price,
+    description,
+    imageUrl,
     // userId: req.user._id instead of this we can just use req.user mongoose will find _id for us
     userId: req.user,
   });
@@ -79,7 +84,10 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+    .select("title price -_id")
+    .populate("userId", "email")
     .then((products) => {
+      console.log(products);
       res.render("admin/products", {
         prods: products,
         pageTitle: "All Products",
