@@ -10,6 +10,6 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   //   req.isLoggedIn = true; // request is dead after sending a response
-  res.setHeader("Set-Cookie", "loggedIn=true");
+  res.setHeader("Set-Cookie", "loggedIn=true; HttpOnly");
   res.redirect("/");
 };
