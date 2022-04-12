@@ -37,8 +37,24 @@ app.use(
   })
 );
 
+// app.use(async (req, res, next) => {
+//   try {
+//     if (!req.session.user) {
+//       next();
+//     }
+//     const user = await User.findById(req.session.user._id);
+//     req.user = user;
+//     next();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
 app.use((req, res, next) => {
-  User.findById("6245c54f49fe872086b19288")
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
     .then((user) => {
       req.user = user;
       next();
