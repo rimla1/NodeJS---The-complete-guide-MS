@@ -1,4 +1,5 @@
-const sequelize = require("sequelize");
+const bcrypte = require("bcryptjs");
+
 const User = require("../models/user");
 
 exports.getLogin = (req, res, next) => {
@@ -60,9 +61,10 @@ exports.postSignup = async (req, res, next) => {
     if (userDoc) {
       return res.redirect("/signup");
     }
+    const cryptedPassword = await bcrypte.hash(password, 12);
     const user = new User({
       email: email,
-      password: password,
+      password: cryptedPassword,
       cart: { items: [] },
     });
     await user.save();
