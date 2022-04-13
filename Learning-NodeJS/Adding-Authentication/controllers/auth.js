@@ -61,10 +61,10 @@ exports.postSignup = async (req, res, next) => {
     if (userDoc) {
       return res.redirect("/signup");
     }
-    const cryptedPassword = await bcrypte.hash(password, 12);
+    const hashedPassword = await bcrypte.hash(password, 12);
     const user = new User({
       email: email,
-      password: cryptedPassword,
+      password: hashedPassword,
       cart: { items: [] },
     });
     await user.save();
