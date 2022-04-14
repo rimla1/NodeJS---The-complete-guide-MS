@@ -17,9 +17,16 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render("auth/signup", {
     path: "/signup",
     pageTitle: "Signup",
+    errorMessage: message,
   });
 };
 
@@ -53,6 +60,7 @@ exports.postLogin = async (req, res, next) => {
         res.redirect("/");
       });
     }
+    req.flash("error", "Invalid Passowrd");
     res.redirect("/login");
   } catch (err) {
     console.log(err);
@@ -87,6 +95,7 @@ exports.postSignup = async (req, res, next) => {
   try {
     const userDoc = await User.findOne({ email: email });
     if (userDoc) {
+      req.flash("error", "User already exist");
       return res.redirect("/signup");
     }
     const hashedPassword = await bcrypt.hash(password, 12);
