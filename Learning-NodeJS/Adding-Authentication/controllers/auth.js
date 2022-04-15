@@ -115,13 +115,13 @@ exports.postSignup = async (req, res, next) => {
       cart: { items: [] },
     });
     await user.save();
+    res.redirect("/login");
     transporter.sendMail({
       to: email,
       from: "shop@node-complete.com",
       subject: "Signup succeeded!",
       html: "<h1>You successfully signed up!</h1>",
     });
-    res.redirect("/login");
   } catch (err) {
     console.log(err);
   }
@@ -130,5 +130,19 @@ exports.postSignup = async (req, res, next) => {
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {
     res.redirect("/");
+  });
+};
+
+exports.getReset = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+  res.render("auth/reset", {
+    path: "/reset",
+    pageTitle: "Reset Password",
+    errorMessage: message,
   });
 };
