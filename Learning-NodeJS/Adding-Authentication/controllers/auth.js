@@ -1,16 +1,20 @@
+const crypto = require("crypto");
+const dotEnv = require("dotenv");
+dotEnv.config();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const User = require("../models/user");
 
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key: "Key_That_we_get_from_sendgrid",
-    },
-  })
-);
+const transporter = nodemailer.createTransport({
+  host: "smtp.mandrillapp.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "Student",
+    pass: "lJ75YFatFAPpP7CPdC3bZQ",
+  },
+});
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash("error");
@@ -115,13 +119,14 @@ exports.postSignup = async (req, res, next) => {
       cart: { items: [] },
     });
     await user.save();
-    res.redirect("/login");
-    transporter.sendMail({
-      to: email,
+    const rsp = await transporter.sendMail({
+      to: "amcenp@gmail.com",
       from: "shop@node-complete.com",
       subject: "Signup succeeded!",
       html: "<h1>You successfully signed up!</h1>",
     });
+    console.log(rsp);
+    res.redirect("/login");
   } catch (err) {
     console.log(err);
   }
@@ -144,5 +149,34 @@ exports.getReset = (req, res, next) => {
     path: "/reset",
     pageTitle: "Reset Password",
     errorMessage: message,
+  });
+};
+
+exports.postReset = async (req, res, next) => {
+  crypto.randomBytes(32, async (err, buffer) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/reset");
+    }
+    const token = buffer.toString("hex");
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      req.flash("error", "No account has been found");
+      return res.redirect("/reset");
+    }
+    user.resetToken = token;
+    user.resetTokenExpiration = Date.now() + 3600000;
+    await user.save();
+    const ResponseInConsole = await transporter.sendMail({
+      to: req.body.email,
+      from: "shop@node-complete.com",
+      subject: "Password reset",
+      html: `
+      <h1>Reset your password</h1>
+      <p>Click this <a href="http://localhost:3535/reset/${token}">link</a> to reset a password</p>
+      `,
+    });
+    console.log(ResponseInConsole);
+    res.redirect("/");
   });
 };
