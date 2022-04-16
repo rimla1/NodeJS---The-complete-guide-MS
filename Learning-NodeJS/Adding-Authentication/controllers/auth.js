@@ -181,3 +181,24 @@ exports.postReset = async (req, res, next) => {
     res.redirect("/");
   });
 };
+
+exports.getNewPassword = async (req, res, next) => {
+  const token = req.params.token;
+  const user = await User.findOne({
+    resetToken: token,
+    resetTokenExpiration: { $gt: Date.now() },
+  });
+
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+  res.render("auth/new-password", {
+    path: "/new-password",
+    pageTitle: "Reset password",
+    errorMessage: message,
+    userId: user._id.toString(),
+  });
+};
