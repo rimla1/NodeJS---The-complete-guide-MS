@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: "Student",
-    pass: "lJ75YFatFAPpP7CPdC3bZQ",
+    pass: `${process.env.SENDGRID_TOKEN}`,
   },
 });
 
