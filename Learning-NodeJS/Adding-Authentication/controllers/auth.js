@@ -120,7 +120,7 @@ exports.postSignup = async (req, res, next) => {
     });
     await user.save();
     const rsp = await transporter.sendMail({
-      to: "amcenp@gmail.com",
+      to: email,
       from: "shop@node-complete.com",
       subject: "Signup succeeded!",
       html: "<h1>You successfully signed up!</h1>",
@@ -159,9 +159,10 @@ exports.postReset = async (req, res, next) => {
       return res.redirect("/reset");
     }
     const token = buffer.toString("hex");
+    console.log(token);
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      req.flash("error", "No account has been found");
+      req.flash("error", "No account with that email found");
       return res.redirect("/reset");
     }
     user.resetToken = token;
