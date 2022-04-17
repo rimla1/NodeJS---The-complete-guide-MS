@@ -81,27 +81,6 @@ exports.postLogin = async (req, res, next) => {
   }
 };
 
-// exports.postSignup = (req, res, next) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-//   const confirmPassword = req.body.confirmPassword;
-//   User.findOne({ email: email })
-//     .then((userDoc) => {
-//       console.log(userDoc);
-//       if (userDoc) {
-//         return res.redirect("/signup");
-//       }
-//       const user = new User({
-//         email: email,
-//         password: password,
-//         cart: { items: [] },
-//       });
-//       return user.save();
-//     })
-//     .then((result) => res.redirect("/login"))
-//     .catch((err) => console.log(err));
-// };
-
 exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -200,5 +179,27 @@ exports.getNewPassword = async (req, res, next) => {
     pageTitle: "Reset password",
     errorMessage: message,
     userId: user._id.toString(),
+    passwordToken: token,
   });
+};
+
+exports.postNewPassword = async (req, res, next) => {
+  const newPassword = req.body.password;
+  const userId = req.body.userId;
+  const passwordToken = req.body.passwordToken;
+  try {
+    const user = await User.findOne({
+      resetToken: passwordToken,
+      resetTokenExpiration: { $gt: Date.now() },
+      _id: userId,
+    });
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    user.password = hashedPassword;
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
+    await user.save();
+    res.redirect("/login");
+  } catch (err) {
+    console.log(err);
+  }
 };
