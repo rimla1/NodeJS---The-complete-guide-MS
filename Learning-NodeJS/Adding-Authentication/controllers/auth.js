@@ -4,6 +4,7 @@ dotEnv.config();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+const { validationResult } = require("express-validator/check");
 
 const User = require("../models/user");
 
@@ -84,7 +85,16 @@ exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
+  const errors = validationResult(req);
   try {
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(422).render("auth/signup", {
+        path: "/signup",
+        pageTitle: "Signup",
+        errorMessage: errors.array(),
+      });
+    }
     const userDoc = await User.findOne({ email: email });
     if (userDoc) {
       req.flash("error", "User already exist");
