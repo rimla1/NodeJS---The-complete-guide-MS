@@ -87,12 +87,12 @@ exports.postSignup = async (req, res, next) => {
   const confirmPassword = req.body.confirmPassword;
   const errors = validationResult(req);
   try {
+    console.log(errors.array()[0].msg);
     if (!errors.isEmpty()) {
-      console.log(errors.array());
       return res.status(422).render("auth/signup", {
         path: "/signup",
         pageTitle: "Signup",
-        errorMessage: errors.array(),
+        errorMessage: errors.array()[0].msg,
       });
     }
     const userDoc = await User.findOne({ email: email });
