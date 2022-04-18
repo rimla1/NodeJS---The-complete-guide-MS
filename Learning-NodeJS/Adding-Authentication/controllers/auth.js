@@ -3,18 +3,17 @@ const dotEnv = require("dotenv");
 dotEnv.config();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const User = require("../models/user");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.mandrillapp.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "Student",
-    pass: `${process.env.SENDGRID_TOKEN}`,
-  },
-});
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key: `${process.env.API_KEY}`,
+    },
+  })
+);
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash("error");
@@ -100,7 +99,7 @@ exports.postSignup = async (req, res, next) => {
     await user.save();
     const rsp = await transporter.sendMail({
       to: email,
-      from: "shop@node-complete.com",
+      from: "projectalmir2@gmail.com",
       subject: "Signup succeeded!",
       html: "<h1>You successfully signed up!</h1>",
     });
@@ -149,7 +148,7 @@ exports.postReset = async (req, res, next) => {
     await user.save();
     const ResponseInConsole = await transporter.sendMail({
       to: req.body.email,
-      from: "shop@node-complete.com",
+      from: "projectalmir2@gmail.com",
       subject: "Password reset",
       html: `
       <h1>Reset your password</h1>
