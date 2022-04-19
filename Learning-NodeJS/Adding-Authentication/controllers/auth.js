@@ -44,19 +44,6 @@ exports.getSignup = (req, res, next) => {
   });
 };
 
-// exports.postLogin = (req, res, next) => {
-//   User.findById("5bab316ce0a7c75f783cb8a8")
-//     .then((user) => {
-//       req.session.isLoggedIn = true;
-//       req.session.user = user;
-//       req.session.save((err) => {
-//         console.log(err);
-//         res.redirect("/");
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
-
 exports.postLogin = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -84,7 +71,6 @@ exports.postLogin = async (req, res, next) => {
 exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
@@ -93,11 +79,6 @@ exports.postSignup = async (req, res, next) => {
         pageTitle: "Signup",
         errorMessage: errors.array()[0].msg,
       });
-    }
-    const userDoc = await User.findOne({ email: email });
-    if (userDoc) {
-      req.flash("error", "User already exist");
-      return res.redirect("/signup");
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({
