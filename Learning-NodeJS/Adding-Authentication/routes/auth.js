@@ -1,6 +1,7 @@
 const express = require("express");
-const { check, body } = require("express-validator/check");
+const { check, body /* checkSchema */ } = require("express-validator/check");
 
+// const loginSchema = require("../validations/loginValidation");
 const authController = require("../controllers/auth");
 const User = require("../models/user");
 
@@ -10,7 +11,19 @@ router.get("/login", authController.getLogin);
 
 router.get("/signup", authController.getSignup);
 
-router.post("/login", authController.postLogin);
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("Please enter a valid email address."),
+    body(
+      "password",
+      "Please enter a password with only number and text and at least 5 characters"
+    )
+      .isLength({ min: 5 })
+      .isAlphanumeric(),
+  ],
+  /* checkSchema(loginSchema), */ authController.postLogin
+);
 
 router.post(
   "/signup",
