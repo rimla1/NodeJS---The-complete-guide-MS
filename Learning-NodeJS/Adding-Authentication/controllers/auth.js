@@ -46,6 +46,7 @@ exports.getSignup = (req, res, next) => {
       password: "",
       confirmPassword: "",
     },
+    validationErrors: [],
   });
 };
 
@@ -96,6 +97,7 @@ exports.postSignup = async (req, res, next) => {
           password: password,
           confirmPassword: req.body.confirmPassword,
         },
+        validationErrors: errors.array(),
       });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
