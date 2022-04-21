@@ -27,6 +27,11 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     pageTitle: "Login",
     errorMessage: message,
+    oldInput: {
+      email: "",
+      password: "",
+    },
+    validationErrors: [],
   });
 };
 
@@ -59,13 +64,20 @@ exports.postLogin = async (req, res, next) => {
       path: "/login",
       pageTitle: "login",
       errorMessage: errors.array()[0].msg,
+      oldInput: { email: email, password: password },
+      validationErrors: errors.array(),
     });
   }
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
-      req.flash("error", "Invalid email");
-      return res.redirect("/login");
+      return res.status(422).render("auth/login", {
+        path: "/login",
+        pageTitle: "login",
+        errorMessage: "Email does not exist",
+        oldInput: { email: email, password: password },
+        validationErrors: errors.array({ param: "email", param: "password" }),
+      });
     }
     const doesPasswordsMatch = await bcrypt.compare(password, user.password);
     if (doesPasswordsMatch) {
@@ -75,8 +87,13 @@ exports.postLogin = async (req, res, next) => {
         res.redirect("/");
       });
     }
-    req.flash("error", "Invalid Passowrd");
-    res.redirect("/login");
+    return res.status(422).render("auth/login", {
+      path: "/login",
+      pageTitle: "login",
+      errorMessage: "Invalid Password",
+      oldInput: { email: email, password: password },
+      validationErrors: errors.array({ param: "email", param: "password" }),
+    });
   } catch (err) {
     console.log(err);
   }
