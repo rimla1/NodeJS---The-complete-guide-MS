@@ -95,7 +95,9 @@ exports.postLogin = async (req, res, next) => {
       validationErrors: errors.array({ param: "email", param: "password" }),
     });
   } catch (err) {
-    console.log(err);
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -133,7 +135,9 @@ exports.postSignup = async (req, res, next) => {
     console.log(rsp);
     res.redirect("/login");
   } catch (err) {
-    console.log(err);
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -226,6 +230,8 @@ exports.postNewPassword = async (req, res, next) => {
     await user.save();
     res.redirect("/login");
   } catch (err) {
-    console.log(err);
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
