@@ -55,7 +55,6 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then((user) => {
-      throw new Error("Dummy Error");
       if (!user) {
         return next();
       }
