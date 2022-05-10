@@ -145,19 +145,60 @@ exports.getOrders = (req, res, next) => {
     });
 };
 
-exports.getInvoice = (req, res, next) => {
+// exports.getInvoice = (req, res, next) => {
+//   const orderId = req.params.orderId;
+//   const invoiceName = "invoice-" + orderId + ".pdf";
+//   const invoicePath = path.join("data", "invoices", invoiceName);
+//   fs.readFile(invoicePath, (err, data) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     res.setHeader("Content-Type", "application/pdf");
+//     res.setHeader(
+//       "Content-Disposition",
+//       'inline;filename="' + invoiceName + '"'
+//     );
+//     res.send(data);
+//   });
+// };
+
+exports.getInvoice = async (req, res, next) => {
+  // async & await
   const orderId = req.params.orderId;
-  const invoiceName = "invoice-" + orderId + ".pdf";
-  const invoicePath = path.join("data", "invoices", invoiceName);
-  fs.readFile(invoicePath, (err, data) => {
-    if (err) {
-      return next(err);
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return next(new Error("No order found."));
     }
+    if (order.user.userId.toString() !== req.user._id.toString()) {
+      return next(new Error("Unauthorized"));
+    }
+
+    const invoiceName = "invoice-" + orderId + ".pdf";
+    const invoicePath = path.join("data", "invoices", invoiceName);
+
+    const data = fs.readFileSync(invoicePath);
+
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
       'inline;filename="' + invoiceName + '"'
     );
     res.send(data);
-  });
+    // fs.readFile(invoicePath, (err, data) => {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   res.setHeader("Content-Type", "application/pdf");
+    //   res.setHeader(
+    //     "Content-Disposition",
+    //     'inline;filename="' + invoiceName + '"'
+    //   );
+    //   res.send(data);
+    // });
+  } catch (err) {
+    next(err);
+  }
+  // End of async & await
 };
