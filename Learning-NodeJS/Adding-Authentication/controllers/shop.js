@@ -186,6 +186,16 @@ exports.getInvoice = async (req, res, next) => {
       'inline;filename="' + invoiceName + '"'
     );
     res.send(data);
+
+    const file = fs.createReadStream(invoicePath);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      'inline;filename="' + invoiceName + '"'
+    );
+
+    file.pipe(res);
+
     // fs.readFile(invoicePath, (err, data) => {
     //   if (err) {
     //     return next(err);
