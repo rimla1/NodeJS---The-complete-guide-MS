@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const PDFDocument = require("pdfkit");
 
 const Product = require("../models/product");
 const Order = require("../models/order");
@@ -178,23 +179,27 @@ exports.getInvoice = async (req, res, next) => {
     const invoiceName = "invoice-" + orderId + ".pdf";
     const invoicePath = path.join("data", "invoices", invoiceName);
 
-    const data = fs.readFileSync(invoicePath);
-
+    const pdfDoc = new PDFDocument();
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
       'inline;filename="' + invoiceName + '"'
     );
-    res.send(data);
+    pdfDoc.pipe(fs.createWriteStream(invoicePath));
+    pdfDoc.pipe(res);
 
-    const file = fs.createReadStream(invoicePath);
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      'inline;filename="' + invoiceName + '"'
-    );
+    pdfDoc.text("Hello from my dummy document");
 
-    file.pipe(res);
+    pdfDoc.end();
+
+    // const data = fs.readFileSync(invoicePath);
+
+    // res.setHeader("Content-Type", "application/pdf");
+    // res.setHeader(
+    //   "Content-Disposition",
+    //   'inline;filename="' + invoiceName + '"'
+    // );
+    // res.send(data);
 
     // fs.readFile(invoicePath, (err, data) => {
     //   if (err) {
