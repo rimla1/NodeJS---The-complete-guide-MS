@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const dotEnv = require("dotenv");
 dotEnv.config();
 const bodyParser = require("body-parser");
@@ -10,8 +11,8 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env
 const app = express();
 
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
-
 app.use(bodyParser.json()); // application/json
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Solving CORS error
 app.use((req, res, next) => {
