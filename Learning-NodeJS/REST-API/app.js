@@ -1,4 +1,6 @@
 const express = require("express");
+const dotEnv = require("dotenv");
+dotEnv.config();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
@@ -34,5 +36,7 @@ app.use("/feed", feedRoutes);
 
 mongoose
   .connect(MONGODB_URI)
-  .then((result) => app.listen(8080))
+  .then((result) => {
+    app.listen(8080), console.log("Connected to the database");
+  })
   .catch((err) => console.log(err));
