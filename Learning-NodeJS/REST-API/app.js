@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 const dotEnv = require("dotenv");
 dotEnv.config();
@@ -42,6 +43,7 @@ app.use(
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Solving CORS error
+app.use("*", cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Every website is allowed
   res.setHeader(
