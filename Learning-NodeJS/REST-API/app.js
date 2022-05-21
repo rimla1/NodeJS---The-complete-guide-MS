@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 
 const feedRoutes = require("./routes/feed");
+const authRoutes = require("./routes/auth");
+
 const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ekxmb.mongodb.net/messages?retryWrites=true&w=majority`;
 
 const app = express();
@@ -63,6 +65,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/feed", feedRoutes);
+app.use("/auth", feedRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
