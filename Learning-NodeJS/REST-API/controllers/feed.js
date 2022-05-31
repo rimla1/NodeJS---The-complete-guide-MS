@@ -8,11 +8,9 @@ const User = require("../models/user");
 exports.getPosts = async (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
-  let totalItems;
-  try {
-    const count = await Post.find().countDocuments();
-    totalItems = count;
 
+  try {
+    const totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
       .skip((currentPage - 1) * perPage)
       .limit(perPage);
@@ -109,7 +107,7 @@ exports.createPost = (req, res, next) => {
     });
 };
 
-exports.getPost = async (req, res, mext) => {
+exports.getPost = async (req, res, next) => {
   const postId = req.params.postId;
   try {
     const post = await Post.findById(postId);
