@@ -11,9 +11,12 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 const multer = require("multer");
 const helmet = require("helmet");
+const compression = require("compression");
 
 const errorController = require("./controllers/error");
 const User = require("./models/user");
+
+console.log(process.env.MONGODB_PASSWORD);
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ekxmb.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`;
 
@@ -53,6 +56,7 @@ const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 
 app.use(helmet());
+app.use(compression());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -117,7 +121,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
   .then((result) => {
-    app.listen(process.env.PORT || 3535);
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     console.log(err);
