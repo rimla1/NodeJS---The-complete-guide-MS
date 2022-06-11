@@ -66,6 +66,6 @@ mongoose
     `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ekxmb.mongodb.net/${process.env.MONGODB_DB_NAME}?retryWrites=true&w=majority`
   )
   .then((result) => {
-    app.listen(8080);
+    app.listen(8888);
   })
   .catch((err) => console.log(err));
