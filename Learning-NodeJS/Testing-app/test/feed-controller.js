@@ -1,11 +1,9 @@
 const dotEnv = require("dotenv");
 dotEnv.config();
 const expect = require("chai").expect;
-const sinon = require("sinon");
 const mongoose = require("mongoose");
 
 const User = require("../models/user");
-const Post = require("../models/post");
 const FeedController = require("../controllers/feed");
 
 describe("Feed Controller", () => {
@@ -30,22 +28,27 @@ describe("Feed Controller", () => {
   });
 
   it("should add a created post to the posts of the creator", (done) => {
-    sinon.stub(User, "findOne");
-    User.findOne.throws();
-
     const req = {
       body: {
-        email: "userThatDoesNotExist@gmail.com",
-        password: "userThatDoesNotExist",
+        title: "Test Post",
+        content: "A test post",
       },
+      file: {
+        path: "abc",
+      },
+      userId: "5c0f66b979af55031b34728a",
     };
-    AuthController.login(req, {}, () => {}).then((result) => {
-      expect(result).to.be.an("error");
-      expect(result).to.have.property("statusCode", 500);
+    const res = {
+      status: function () {
+        return this;
+      },
+      json: function () {},
+    };
+    FeedController.createPost(req, res, () => {}).then((savedUser) => {
+      expect(savedUser).to.have.property("posts");
+      expect(savedUser.posts).to.have.length(1);
       done();
     });
-
-    User.findOne.restore();
   });
 
   after((done) => {
