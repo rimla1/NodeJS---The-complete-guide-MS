@@ -27,6 +27,7 @@
     "s": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "sinon": "^14.0.0"
   }
 }
