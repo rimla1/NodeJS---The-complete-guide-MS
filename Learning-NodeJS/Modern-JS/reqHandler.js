@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 const reqHandler = (req, res, next) => {
   fs.readFile("my-page.html", "utf8", (err, data) => {
@@ -6,4 +6,4 @@ const reqHandler = (req, res, next) => {
   });
 };
 
-module.exports = reqHandler;
+export default reqHandler;
