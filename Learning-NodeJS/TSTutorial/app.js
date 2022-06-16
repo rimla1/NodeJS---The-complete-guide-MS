@@ -1,12 +1,13 @@
-var num1Element = document.getElementById("num1");
-var num2Element = document.getElementById("num2");
-var buttonElement = document.querySelector('button');
-var sum = function (num1, num2) {
+"use strict";
+const num1Element = document.getElementById("num1");
+const num2Element = document.getElementById("num2");
+const buttonElement = document.querySelector('button');
+const sum = (num1, num2) => {
     return num1 + num2;
 };
-buttonElement.addEventListener("click", function () {
-    var num1 = num1Element.value;
-    var num2 = num2Element.value;
-    var result = sum(+num1, +num2);
+buttonElement.addEventListener("click", () => {
+    const num1 = num1Element.value;
+    const num2 = num2Element.value;
+    const result = sum(+num1, +num2);
     console.log(result);
 });
