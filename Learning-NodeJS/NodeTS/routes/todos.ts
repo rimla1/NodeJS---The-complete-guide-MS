@@ -1,5 +1,4 @@
 import { Router } from "express";
-import todosController from "../controllers/todos";
 import { Todo } from "../models/todo";
 
 let todos: Todo[] = [];
